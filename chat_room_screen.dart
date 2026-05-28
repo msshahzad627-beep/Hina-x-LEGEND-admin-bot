@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:swipe_to/swipe_to.dart';
@@ -8,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:video_player/video_player.dart';
 import 'package:record/record.dart';
+// ignore: depend_on_referenced_packages
 import '../theme/app_theme.dart';
 import '../api/api_service.dart';
 import '../controllers/chat_hub_controller.dart';
@@ -274,9 +274,12 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
 
   Future<void> _pickFile() async {
     FilePickerResult? result = await FilePicker.platform
-        .pickFiles(type: FileType.any, allowMultiple: false);
-    if (result != null) {
-      _sendMediaMessage(result.files.first.path ?? "", "document");
+        .pickFiles(type: FileType.any, allowMultiple: false, withData: true);
+    if (result != null && result.files.isNotEmpty) {
+      final file = result.files.first;
+      // Web: use bytes; Mobile: use path
+      final path = file.path ?? file.name;
+      _sendMediaMessage(path, "document");
     }
   }
 
@@ -608,7 +611,7 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
                             swipeOffset = 0.0;
                           });
                           await _audioRecorder.start(const RecordConfig(),
-                              path: '');
+                              path: ''); // Web: record stores in memory, returns blob URL
                         }
                       },
                       onLongPressMoveUpdate: (details) {

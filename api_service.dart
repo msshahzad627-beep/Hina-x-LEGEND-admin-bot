@@ -6,8 +6,8 @@ import 'package:get/get.dart';
 // ⚙️ API CONFIGURATION (یہاں اپنا لنک چیک کر لیں)
 // ==========================================
 class ApiConfig {
-  final String baseUrl = "https://https://legend-x-hina-official-bot-production.up.railway.app";
-  final String wsUrl = "wss:///https://legend-x-hina-official-bot-production.up.railway.app/ws";
+  final String baseUrl = "https://legend-x-hina-official-bot-production.up.railway.app";
+  final String wsUrl = "wss://legend-x-hina-official-bot-production.up.railway.app/ws";
 }
 
 class ApiService {

@@ -14,7 +14,7 @@ dependencies:
   record: ^5.0.5
   get_storage: ^2.1.1
   url_launcher: ^6.2.6   
-  file_picker: ^6.1.1
+  file_picker: ^8.1.2
   dio: ^5.4.3                 # فائلز ڈاؤنلوڈ کرنے کے لیے
   path_provider: ^2.1.2       # لوکل سٹوریج کا پاتھ نکالنے کے لیے
   flutter_markdown: ^0.7.4
