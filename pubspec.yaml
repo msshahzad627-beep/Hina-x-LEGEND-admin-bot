@@ -1,0 +1,37 @@
+name: silent_nexus_crm
+description: A VIP WhatsApp CRM Frontend with Aurora Glass Theme.
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  get: ^4.6.6
+  http: ^1.2.0
+  record: ^5.0.5
+  get_storage: ^2.1.1
+  url_launcher: ^6.2.6   
+  file_picker: ^6.1.1
+  dio: ^5.4.3                 # فائلز ڈاؤنلوڈ کرنے کے لیے
+  path_provider: ^2.1.2       # لوکل سٹوریج کا پاتھ نکالنے کے لیے
+  flutter_markdown: ^0.7.4
+  web_socket_channel: ^3.0.1
+  glassmorphism: ^3.0.0
+  shared_preferences: ^2.2.3
+  # 🌟 VIP Chat Features
+  swipe_to: ^1.0.2         # سوائپ کر کے ریپلائی کرنے کے لیے
+  audioplayers: ^5.2.1     # وائس نوٹس پلے کرنے کے لیے
+  just_audio: ^0.9.36       # 👈 آڈیو کے لیے یہ پیکیج استعمال کریں
+  video_player: ^2.8.6
+  cached_network_image: ^3.3.1 # تصویریں لوڈ اور سیو کرنے کے لیے
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true

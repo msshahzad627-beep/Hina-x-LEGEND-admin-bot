@@ -1,0 +1,58 @@
+<<<<<<< SEARCH
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildInfoAction(Icons.call, "Audio"),
+                _buildInfoAction(Icons.videocam, "Video"),
+                _buildInfoAction(Icons.search, "Search"),
+              ],
+            ),
+            const SizedBox(height: 20),
+          ],
+        ),
+      ),
+    );
+  }
+=======
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                _buildInfoAction(Icons.call, "Audio"),
+                _buildInfoAction(Icons.videocam, "Video"),
+                _buildInfoAction(Icons.search, "Search"),
+              ],
+            ),
+            const SizedBox(height: 20),
+            const Divider(color: Colors.white24),
+            ListTile(
+              leading: const Icon(Icons.block, color: Colors.redAccent),
+              title: const Text("Block User", style: TextStyle(color: Colors.redAccent)),
+              onTap: () {
+                 Get.back();
+                 _blockUser(chatJid, true);
+              },
+            ),
+            ListTile(
+              leading: const Icon(Icons.check_circle_outline, color: Colors.white70),
+              title: const Text("Unblock User", style: TextStyle(color: Colors.white70)),
+              onTap: () {
+                 Get.back();
+                 _blockUser(chatJid, false);
+              },
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _blockUser(String userJid, bool block) async {
+      // Call backend API
+      // bool success = await ApiService.blockUser(botJid, userJid, block);
+      Get.snackbar(
+        block ? "Blocked" : "Unblocked",
+        "User has been ${block ? 'blocked' : 'unblocked'}.",
+        snackPosition: SnackPosition.BOTTOM
+      );
+  }
+>>>>>>> REPLACE
