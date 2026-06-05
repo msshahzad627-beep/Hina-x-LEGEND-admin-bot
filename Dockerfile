@@ -14,10 +14,7 @@ WORKDIR /app
 COPY . .
 
 RUN flutter pub get
-
-# Create web platform files without touching lib/
 RUN flutter create --platforms web .
-
 RUN flutter build web --release
 
 # Stage 2: Serve
