@@ -7,7 +7,6 @@ RUN git clone https://github.com/flutter/flutter.git -b stable /flutter
 ENV PATH="/flutter/bin:/flutter/bin/cache/dart-sdk/bin:${PATH}"
 
 RUN git config --global --add safe.directory /flutter
-
 RUN flutter config --no-analytics
 RUN flutter config --enable-web
 
@@ -16,10 +15,8 @@ COPY . .
 
 RUN flutter pub get
 
-# Backup main.dart before flutter create overwrites it
-RUN cp lib/main.dart /tmp/main_backup.dart
-RUN flutter create . --platforms web
-RUN cp /tmp/main_backup.dart lib/main.dart
+# Create web platform files without touching lib/
+RUN flutter create --platforms web .
 
 RUN flutter build web --release
 
