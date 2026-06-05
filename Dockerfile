@@ -1,21 +1,33 @@
-Error
-java.io.FileNotFoundException: /storage/emulated/0/Download/Dockerfile: open failed: ENOENT (No such file or directory)
-	at libcore.io.IoBridge.open(IoBridge.java:574)
-	at java.io.FileInputStream.<init>(FileInputStream.java:179)
-	at l.ۖۦۥ.ۘ۬(6170:274)
-	at l.۠ۨۥ.ۥ۬(X17H:358)
-	at l.ۤ۟۠.ۨ(0B3Z:78)
-	at l.ۤ۟۠.ۨ(Native Method)
-	at l.ۧۘ۠.call(7ATF:396)
-	at java.util.concurrent.FutureTask.run(FutureTask.java:317)
-	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1154)
-	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:652)
-	at java.lang.Thread.run(Thread.java:1564)
-Caused by: android.system.ErrnoException: open failed: ENOENT (No such file or directory)
-	at libcore.io.Linux.open(Native Method)
-	at libcore.io.ForwardingOs.open(ForwardingOs.java:574)
-	at libcore.io.BlockGuardOs.open(BlockGuardOs.java:274)
-	at libcore.io.ForwardingOs.open(ForwardingOs.java:574)
-	at android.app.ActivityThread$AndroidOs.open(ActivityThread.java:8052)
-	at libcore.io.IoBridge.open(IoBridge.java:560)
-	... 10 more
+# Stage 1: Build
+FROM debian:bookworm-slim AS build-env
+
+RUN apt-get update && apt-get install -y curl git unzip xz-utils libglu1-mesa ca-certificates
+
+RUN git clone https://github.com/flutter/flutter.git -b stable /flutter
+ENV PATH="/flutter/bin:/flutter/bin/cache/dart-sdk/bin:${PATH}"
+
+RUN git config --global --add safe.directory /flutter
+
+RUN flutter config --no-analytics
+RUN flutter config --enable-web
+
+WORKDIR /app
+COPY . .
+
+RUN flutter pub get
+
+# Backup main.dart before flutter create overwrites it
+RUN cp lib/main.dart /tmp/main_backup.dart
+RUN flutter create . --platforms web
+RUN cp /tmp/main_backup.dart lib/main.dart
+
+RUN flutter build web --release
+
+# Stage 2: Serve
+FROM nginx:alpine
+
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY --from=build-env /app/build/web /usr/share/nginx/html
+
+EXPOSE 8080
+CMD ["nginx", "-g", "daemon off;"]
