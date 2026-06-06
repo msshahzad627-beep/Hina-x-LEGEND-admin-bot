@@ -32,7 +32,7 @@ class SilentNexusApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      title: 'Silent Nexus VIP',
+      title: 'HINA X LEGEND',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
