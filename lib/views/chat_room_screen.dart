@@ -143,6 +143,37 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
     );
   }
 
+  void _confirmClearChat() {
+    Get.dialog(
+      AlertDialog(
+        backgroundColor: const Color(0xFF1E1E2C),
+        title: const Text('Clear Chat', style: TextStyle(color: Colors.white)),
+        content: const Text('Sari chat delete ho jayegi. Sure ho?',
+            style: TextStyle(color: Colors.white70)),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(),
+            child: const Text('Cancel', style: TextStyle(color: Colors.white70)),
+          ),
+          TextButton(
+            onPressed: () async {
+              Get.back();
+              bool success = await ApiService.deleteChat(botJid, chatJid);
+              if (success) {
+                hub.currentChatMessages.clear();
+                Get.snackbar('Done', 'Chat clear ho gayi!',
+                    snackPosition: SnackPosition.BOTTOM,
+                    backgroundColor: Colors.black87,
+                    colorText: Colors.white);
+              }
+            },
+            child: const Text('Clear', style: TextStyle(color: Colors.redAccent)),
+          ),
+        ],
+      ),
+    );
+  }
+
   void _blockUser(String userJid, bool block) async {
       bool success = await ApiService.blockUser(botJid, userJid, block);
       if (success) {
@@ -307,6 +338,60 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
           IconButton(
               icon: const Icon(Icons.info_outline),
               onPressed: _showContactInfo),
+          PopupMenuButton<String>(
+            icon: const Icon(Icons.more_vert, color: Colors.white),
+            color: const Color(0xFF1E1E2C),
+            onSelected: (value) {
+              switch (value) {
+                case 'block':
+                  _blockUser(chatJid, true);
+                  break;
+                case 'unblock':
+                  _blockUser(chatJid, false);
+                  break;
+                case 'clear':
+                  _confirmClearChat();
+                  break;
+                case 'info':
+                  _showContactInfo();
+                  break;
+              }
+            },
+            itemBuilder: (context) => [
+              const PopupMenuItem(
+                value: 'info',
+                child: Row(children: [
+                  Icon(Icons.person_outline, color: Colors.white70),
+                  SizedBox(width: 10),
+                  Text('Contact Info', style: TextStyle(color: Colors.white)),
+                ]),
+              ),
+              const PopupMenuItem(
+                value: 'block',
+                child: Row(children: [
+                  Icon(Icons.block, color: Colors.redAccent),
+                  SizedBox(width: 10),
+                  Text('Block User', style: TextStyle(color: Colors.redAccent)),
+                ]),
+              ),
+              const PopupMenuItem(
+                value: 'unblock',
+                child: Row(children: [
+                  Icon(Icons.check_circle_outline, color: Colors.greenAccent),
+                  SizedBox(width: 10),
+                  Text('Unblock User', style: TextStyle(color: Colors.greenAccent)),
+                ]),
+              ),
+              const PopupMenuItem(
+                value: 'clear',
+                child: Row(children: [
+                  Icon(Icons.delete_sweep, color: Colors.orangeAccent),
+                  SizedBox(width: 10),
+                  Text('Clear Chat', style: TextStyle(color: Colors.orangeAccent)),
+                ]),
+              ),
+            ],
+          ),
         ],
       ),
       body: Container(
