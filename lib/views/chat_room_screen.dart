@@ -156,16 +156,13 @@ class _ChatRoomScreenState extends State<ChatRoomScreen> {
             child: const Text('Cancel', style: TextStyle(color: Colors.white70)),
           ),
           TextButton(
-            onPressed: () async {
+            onPressed: () {
               Get.back();
-              bool success = await ApiService.deleteChat(botJid, chatJid);
-              if (success) {
-                hub.currentChatMessages.clear();
-                Get.snackbar('Done', 'Chat clear ho gayi!',
-                    snackPosition: SnackPosition.BOTTOM,
-                    backgroundColor: Colors.black87,
-                    colorText: Colors.white);
-              }
+              hub.currentChatMessages.clear();
+              Get.snackbar('Done', 'Chat clear ho gayi!',
+                  snackPosition: SnackPosition.BOTTOM,
+                  backgroundColor: Colors.black87,
+                  colorText: Colors.white);
             },
             child: const Text('Clear', style: TextStyle(color: Colors.redAccent)),
           ),
